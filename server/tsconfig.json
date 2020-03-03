@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "outDir": "dist",
+    "sourceMap": true
+  },
+
+  "include": ["app.ts", "routes", "modules", "database"],
+  "exclude": ["node_modules"]
+}

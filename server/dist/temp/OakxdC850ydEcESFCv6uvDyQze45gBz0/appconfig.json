@@ -1,0 +1,13 @@
+{
+"authors":["Adekunle Adegbuyi"],
+"startFile":"index.js",
+"description":"String",
+"licence":"String",
+"email":"String",
+"summary":"String",
+"name":"String",
+"packageName":"String",
+"tags":["service now"],
+"triggers":["list tickets"],
+"variables":[{"key":"Hello","value":"World"}]
+}
