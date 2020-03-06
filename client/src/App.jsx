@@ -17,7 +17,7 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route path="/backend/" component={LoadTemplate}></Route>
-        <Route path="/frontend/" component={LoadTemplate}></Route>
+        <Route path="/" component={LoadTemplate} exact></Route>
       </Switch>
     </BrowserRouter>
   );
