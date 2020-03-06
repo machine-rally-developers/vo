@@ -5,6 +5,8 @@ Virtual Orchestration is the virtual agent that caters for your business or pers
 # Run in developer module
 
 - Go to the root server folder
+- Create a .env file with the following attribute
+  `APP_PORT, APP_ENV, DATABASE, DATABASE_ADDRESS, DATABASE_PORT, DATABASE_USER, DATABASE_PASSWORD,`
 - Open the terminal in this folder
 - run `node app.js`
 - Go to the root client folder
