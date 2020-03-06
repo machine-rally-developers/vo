@@ -2,6 +2,10 @@
 
 Virtual Orchestration is the virtual agent that caters for your business or personal use-case. Use case such as reduction in customer service phone calls, automation, etc. The virtual orchestration can also be further improved by creating or installing modules from the module market.
 
+# Screen Shot
+
+![Front-Page](screenshot_0.png "Front-Page")
+
 # Run in developer module
 
 - Go to the root server folder
