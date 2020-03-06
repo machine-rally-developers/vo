@@ -29,8 +29,7 @@ The `appconfig.json` must include the following fields:
 
 <table>
 
-    <tr><th>Field key</th><th>Required</th><th>Type</th></tr>
-
+  <tr><td><strong>Field key</strong></td><td>Required</td><td>Type</td></tr>
   <tr><td>author</td>><td>true</td><td>Array</td><td>Author(s) of module</td></tr>
   <tr><td>startFile</td><td>true</td><td>String</td><td>Starting point of module</td></tr>
   <tr><td>description</td><td>true</td><td>String</td><td>Description of module</td></tr>
