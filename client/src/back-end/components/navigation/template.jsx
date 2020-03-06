@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import HandleRoute from "./handle-routes";
 import SideNav from "./side-navigation";
+import { generalSettings } from "../../../appconfig";
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -106,7 +107,7 @@ export default function Template(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Persistent drawer
+            {generalSettings.appName}
           </Typography>
         </Toolbar>
       </AppBar>

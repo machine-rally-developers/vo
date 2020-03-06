@@ -11,9 +11,9 @@ export default function HandleRoute(props) {
   return (
     <Switch>
       {routes.map((item, index) => {
-        {
-          console.log(`${match.path}${item.path}`);
-        }
+        // {
+        //   console.log(`${match.path}${item.path}`);
+        // }
         return (
           <Route
             exact
