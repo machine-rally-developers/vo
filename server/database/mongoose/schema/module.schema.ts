@@ -8,12 +8,12 @@ const variableSchema = new Schema({
 });
 //schema for modules
 const moduleSchema = new Schema({
-  description: { type: String, required: true, unique: true },
+  description: { type: String, required: true },
   startFile: { type: String, required: true },
-  licence: { type: String, required: true, unique: true },
+  licence: { type: String, required: true },
   authors: { type: [], required: true },
   email: { type: String, required: true },
-  summary: { type: String, required: true, unique: true, maxlength: 150 },
+  summary: { type: String, required: true, maxlength: 150 },
   name: { type: String, required: true, unique: true },
   packageName: { type: String, required: true, unique: true },
   tags: { type: [] },

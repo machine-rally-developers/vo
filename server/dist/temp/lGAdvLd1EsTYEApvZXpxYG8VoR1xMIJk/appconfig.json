@@ -1,0 +1,13 @@
+{
+"authors":["Machine-Rally-Developers"],
+"startFile":"index.js",
+"description":"This is a test module, that show an image of a cat.",
+"licence":"MIT",
+"email":"machine.rally.developers@gmail.com",
+"summary":"Shows an image of a cat",
+"name":"Cat Image",
+"packageName":"com.cat.image",
+"tags":["service now"],
+"triggers":["image of a cat", "cat image"],
+"variables":[{"key":"Hello","value":"World"}]
+}

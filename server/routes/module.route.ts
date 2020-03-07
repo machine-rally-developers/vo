@@ -32,17 +32,16 @@ moduleRouter
   .get((req, res) => {})
   .post(moduleUpload.single("module"), checkFileExists, (req, res) => {
     //moduleUpload(req, res, err => {
-    /*if (!req.file) {
-        //create error message
-        let error = new Error(
-          "Error uploading  zip file. Zip may be corrupted"
-        );
-        //boomify error message
-        let responseMessage = boom.boomify(error, { statusCode: 400 }).output;
-        //send error message to client
-        res.status(responseMessage.statusCode).json(responseMessage);
-        return;
-      }*/
+    //check that there is a file
+    if (!req.file) {
+      //create error message
+      let error = new Error("Error uploading  zip file. Zip may be corrupted");
+      //boomify error message
+      let responseMessage = boom.boomify(error, { statusCode: 400 }).output;
+      //send error message to client
+      res.status(responseMessage.statusCode).json(responseMessage);
+      return;
+    }
     //install module
     installModule(tempModulePath, fileName)
       .then(result => {

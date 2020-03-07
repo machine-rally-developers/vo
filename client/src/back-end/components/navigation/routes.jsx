@@ -2,7 +2,7 @@
  * File creates routes of the backend
  */
 import React from "react";
-import Modules from "../modules/index";
+import Modules from "../modules/app-modules/index";
 import KeyValueManager from "../key-value-manager/index";
 import Home from "../home/index";
 import InstallModules from "../modules/install-modules/index";

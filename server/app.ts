@@ -7,6 +7,8 @@ import bodyParser from "body-parser";
 import databaseConnection from "./database/connection/connection";
 import path from "path";
 import fs from "fs";
+import graphqlHTTP from "express-graphql";
+import schema from "./database/graphql/root.schema";
 //start environmental variables
 
 databaseConnection()
@@ -37,7 +39,15 @@ databaseConnection()
     app.use(bodyParser.json());
     //add routes middleware
     app.use("/", [moduleRoutes, voClientRouter]);
-
+    //initialize graphql root
+    app.use(
+      "/graphql",
+      graphqlHTTP(async (request, response, graphQLParams) => ({
+        schema,
+        graphiql: process.env.NODE_ENV === "development" ? true : false
+        //context: authentication(request, response, graphQLParams)
+      }))
+    );
     app.listen(port, () =>
       console.log(`Listening at port ${port} at ${new Date()}`)
     );

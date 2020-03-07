@@ -4,17 +4,26 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
 import Slide from "@material-ui/core/Slide";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import "typeface-roboto";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  /*root: {
     width: "100%",
     "& > * + *": {
       marginTop: theme.spacing(2)
     }
+  },*/
+  root: {
+    textAlign: "center"
+  },
+  linearProgress: {
+    margin: 4
   }
 }));
 function transition(props) {
@@ -67,7 +76,7 @@ export default function FileInstallHandler(props) {
   } = useDropzone({ onDrop, accept: "application/x-zip-compressed" });
 
   return (
-    <div className="border justify-content-center d-flex align-items-center">
+    <div className={classes.root}>
       <div
         {...getRootProps({ onClick: event => console.log(event) })}
         style={{
@@ -91,12 +100,19 @@ export default function FileInstallHandler(props) {
         )}
         <em>(Only .zip files will be accepted)</em>
       </div>
+
       {progressBarIsVisible ? (
-        <LinearProgress
-          variant="determinate"
-          value={progressBarValue}
-          color="secondary"
-        />
+        <Box>
+          <Typography variant="caption" style={{ marginTop: 10 }}>
+            <strong>Installing Module..</strong>
+          </Typography>
+          <LinearProgress
+            className={classes.linearProgress}
+            variant="determinate"
+            value={progressBarValue}
+            color="primary"
+          />
+        </Box>
       ) : (
         <div></div>
       )}
