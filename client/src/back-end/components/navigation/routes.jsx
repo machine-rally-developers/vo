@@ -3,6 +3,7 @@
  */
 import React from "react";
 import Modules from "../modules/app-modules/index";
+import ViewModuleDetail from "../modules/app-modules/view.module";
 import KeyValueManager from "../key-value-manager/index";
 import Home from "../home/index";
 import InstallModules from "../modules/install-modules/index";
@@ -20,9 +21,9 @@ export const routes = [
     }
   },
   {
-    path: "modules",
+    path: "modules/view/:id",
     component: function() {
-      return Modules;
+      return ViewModuleDetail;
     }
   },
   {

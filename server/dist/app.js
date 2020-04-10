@@ -80,7 +80,7 @@ connection_1["default"]()
         return __generator(this, function (_a) {
             return [2 /*return*/, ({
                     schema: root_schema_1["default"],
-                    graphiql: process.env.NODE_ENV === "development" ? true : false
+                    graphiql: process.env.APP_ENV === "development" ? true : false
                     //context: authentication(request, response, graphQLParams)
                 })];
         });

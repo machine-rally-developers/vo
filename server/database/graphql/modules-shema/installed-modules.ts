@@ -1,6 +1,8 @@
 import * as graphql from "graphql";
 import GetInstalledModules from "../../mongoose/crud/module.read";
 import DeleteInstalledModule from "../../mongoose/crud/module.delete";
+import DeleteVariable from "../../mongoose/crud/variable.delete";
+import CreateVariable from "../../mongoose/crud/variable.create";
 import boom from "boom";
 const {
   GraphQLObjectType,
@@ -16,6 +18,9 @@ const {
 const variableType = new GraphQLObjectType({
   name: "variables",
   fields: () => ({
+    _id: {
+      type: GraphQLID
+    },
     key: {
       type: GraphQLString
     },
@@ -70,7 +75,7 @@ const listInstalledModules = {
     return result;
   }
 };
-const getInstalledModulesById = {
+const getInstalledModuleById = {
   type: new GraphQLList(moduleType),
   args: {
     id: {
@@ -99,4 +104,58 @@ const deleteInstalledModule = {
     }
   }
 };
-export { listInstalledModules, deleteInstalledModule, getInstalledModulesById };
+const deleteVariable = {
+  type: moduleType,
+  args: {
+    variableId: {
+      type: new GraphQLNonNull(GraphQLID)
+    },
+    moduleId: {
+      type: new GraphQLNonNull(GraphQLID)
+    }
+  },
+  async resolve(parents, args) {
+    try {
+      let result = await DeleteVariable(args.variableId, args.moduleId);
+      return result;
+    } catch (e) {
+      let error = new GraphQLError(e.message);
+      return boom.boomify(error, { statusCode: 400 }).output;
+    }
+  }
+};
+const addVariable = {
+  type: moduleType,
+  args: {
+    key: {
+      type: new GraphQLNonNull(GraphQLString)
+    },
+    value: {
+      type: new GraphQLNonNull(GraphQLString)
+    },
+    moduleId: {
+      type: new GraphQLNonNull(GraphQLID)
+    }
+  },
+  async resolve(parents, args) {
+    interface Variables {
+      key: string;
+      value: string;
+    }
+    let payload: Variables = { key: args.key, value: args.value };
+    try {
+      let result = await CreateVariable(payload, args.moduleId);
+      return result;
+    } catch (e) {
+      let error = new GraphQLError(e.message);
+      return boom.boomify(error, { statusCode: 400 }).output;
+    }
+  }
+};
+export {
+  listInstalledModules,
+  deleteInstalledModule,
+  getInstalledModuleById,
+  addVariable,
+  deleteVariable
+};

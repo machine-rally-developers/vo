@@ -49,6 +49,8 @@ exports.__esModule = true;
 var graphql = __importStar(require("graphql"));
 var module_read_1 = __importDefault(require("../../mongoose/crud/module.read"));
 var module_delete_1 = __importDefault(require("../../mongoose/crud/module.delete"));
+var variable_delete_1 = __importDefault(require("../../mongoose/crud/variable.delete"));
+var variable_create_1 = __importDefault(require("../../mongoose/crud/variable.create"));
 var boom_1 = __importDefault(require("boom"));
 var GraphQLObjectType = graphql.GraphQLObjectType, GraphQLID = graphql.GraphQLID, GraphQLString = graphql.GraphQLString, GraphQLList = graphql.GraphQLList, GraphQLNonNull = graphql.GraphQLNonNull, GraphQLError = graphql.GraphQLError;
 /**
@@ -57,6 +59,9 @@ var GraphQLObjectType = graphql.GraphQLObjectType, GraphQLID = graphql.GraphQLID
 var variableType = new GraphQLObjectType({
     name: "variables",
     fields: function () { return ({
+        _id: {
+            type: GraphQLID
+        },
         key: {
             type: GraphQLString
         },
@@ -120,7 +125,7 @@ var listInstalledModules = {
     }
 };
 exports.listInstalledModules = listInstalledModules;
-var getInstalledModulesById = {
+var getInstalledModuleById = {
     type: new GraphQLList(moduleType),
     args: {
         id: {
@@ -141,7 +146,7 @@ var getInstalledModulesById = {
         });
     }
 };
-exports.getInstalledModulesById = getInstalledModulesById;
+exports.getInstalledModuleById = getInstalledModuleById;
 var deleteInstalledModule = {
     type: moduleType,
     args: {
@@ -171,4 +176,74 @@ var deleteInstalledModule = {
     }
 };
 exports.deleteInstalledModule = deleteInstalledModule;
+var deleteVariable = {
+    type: moduleType,
+    args: {
+        variableId: {
+            type: new GraphQLNonNull(GraphQLID)
+        },
+        moduleId: {
+            type: new GraphQLNonNull(GraphQLID)
+        }
+    },
+    resolve: function (parents, args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var result, e_2, error;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, variable_delete_1["default"](args.variableId, args.moduleId)];
+                    case 1:
+                        result = _a.sent();
+                        return [2 /*return*/, result];
+                    case 2:
+                        e_2 = _a.sent();
+                        error = new GraphQLError(e_2.message);
+                        return [2 /*return*/, boom_1["default"].boomify(error, { statusCode: 400 }).output];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    }
+};
+exports.deleteVariable = deleteVariable;
+var addVariable = {
+    type: moduleType,
+    args: {
+        key: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
+        value: {
+            type: new GraphQLNonNull(GraphQLString)
+        },
+        moduleId: {
+            type: new GraphQLNonNull(GraphQLID)
+        }
+    },
+    resolve: function (parents, args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var payload, result, e_3, error;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        payload = { key: args.key, value: args.value };
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, variable_create_1["default"](payload, args.moduleId)];
+                    case 2:
+                        result = _a.sent();
+                        return [2 /*return*/, result];
+                    case 3:
+                        e_3 = _a.sent();
+                        error = new GraphQLError(e_3.message);
+                        return [2 /*return*/, boom_1["default"].boomify(error, { statusCode: 400 }).output];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    }
+};
+exports.addVariable = addVariable;
 //# sourceMappingURL=installed-modules.js.map

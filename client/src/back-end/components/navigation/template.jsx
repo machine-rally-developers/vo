@@ -14,13 +14,15 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex"
+    display: "flex",
+    background: "#f8f9fa"
   },
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
-    })
+    }),
+    background: "#343a40"
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,

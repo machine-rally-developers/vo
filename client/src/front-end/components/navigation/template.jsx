@@ -6,6 +6,10 @@ import TextField from "@material-ui/core/TextField";
 import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import { conversation } from "../../graphql/frontend-query";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import DomPurify from "dompurify";
+import isHTML from "is-html";
 const useStyles = makeStyles({
   root: {
     display: "flex",
@@ -70,7 +74,7 @@ const StyledRating = withStyles({
  * Get answer related to the question from the server
  @param addToHistory {String<Object>} a callback function to update the history of the conversation
  */
-function getAnswer(e, addToHistory, inputValue) {
+function getAnswer(e, addToHistory, inputValue, converse) {
   //check if the user pressed enter and the input text is valid
   if (
     e.keyCode === 13 &&
@@ -79,7 +83,13 @@ function getAnswer(e, addToHistory, inputValue) {
   ) {
     console.log("Hello" + inputValue);
     //axios
-    addToHistory({ answer: "World", question: "Hello" });
+    converse({ variables: { question: inputValue } }).then(result => {
+      console.log(result.data.conversation);
+      let { question, answer } = result.data.conversation;
+      answer = DomPurify.sanitize(answer);
+      addToHistory({ answer, question });
+    });
+    //addToHistory({ answer: "World", question: "Hello" });
   }
 }
 /**
@@ -88,6 +98,7 @@ function getAnswer(e, addToHistory, inputValue) {
 export default function Template() {
   const name = "Andrew";
   const [inputValue, setInputValue] = useState("");
+  const [converse] = useMutation(conversation);
   const updateInputValue = (value: string) => {
     setInputValue(value);
   };
@@ -130,12 +141,19 @@ export default function Template() {
                   }}
                 >
                   <Slide direction="left" in={true}>
-                    <Chip
-                      variant="outlined"
-                      size="medium"
-                      label={`${item.answer}`}
-                      className={classes.chipAnswer}
-                    />
+                    {isHTML(item.answer) ? (
+                      <div
+                        dangerouslySetInnerHTML={{ __html: `${item.answer}` }}
+                      ></div>
+                    ) : (
+                      <Chip
+                        variant="outlined"
+                        size="medium"
+                        label={item.answer}
+                        className={classes.chipAnswer}
+                        danger="true"
+                      />
+                    )}
                   </Slide>
                   <Box component="fieldset" mb={3} borderColor="transparent">
                     <Typography component="legend">
@@ -166,7 +184,7 @@ export default function Template() {
         variant="outlined"
         className={classes.textField}
         onKeyUp={e => {
-          getAnswer(e, addToHistory, inputValue);
+          getAnswer(e, addToHistory, inputValue, converse);
         }}
         onChange={e => {
           updateInputValue(e.target.value);

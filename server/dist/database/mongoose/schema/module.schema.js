@@ -7,7 +7,7 @@ var mongoose_1 = __importDefault(require("mongoose"));
 var Schema = mongoose_1["default"].Schema;
 //schema for variables neeeded
 var variableSchema = new Schema({
-    key: { type: String, required: true },
+    key: { type: String, required: true, unique: true },
     value: { type: String, required: true }
 });
 //schema for modules

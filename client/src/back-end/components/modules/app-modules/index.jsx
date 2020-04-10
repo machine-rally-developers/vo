@@ -22,6 +22,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
+import { Redirect } from "react-router-dom";
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -72,6 +73,8 @@ export default function Modules() {
   const { loading, error, data, refetch } = useQuery(listInstalledModules);
   const [deleteModule] = useMutation(deleteInstalledModule);
   const [open, setOpen] = React.useState(true);
+  const [redirect, setRedirect] = React.useState(false);
+  const [link, setLink] = React.useState("");
   const classes = useStyles();
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -84,6 +87,11 @@ export default function Modules() {
     console.log(id);
     deleteModule({ variables: { id } });
     refetch();
+  };
+  const handleNavigation = link => {
+    console.log(link);
+    setLink(link);
+    setRedirect(true);
   };
   if (loading)
     return (
@@ -104,6 +112,9 @@ export default function Modules() {
         </Alert>
       </Snackbar>
     );
+  if (redirect) {
+    return <Redirect to={link} exact />;
+  }
   //const { listInstalledModules } = data;
   return (
     <TableContainer component={Paper}>
@@ -132,7 +143,11 @@ export default function Modules() {
               </TableCell>
               <TableCell align="left">{row.summary.trim()}</TableCell>
               <TableCell align="left">
-                <Button variant="contained" color="primary">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleNavigation(`view/${row._id}`)}
+                >
                   View
                 </Button>
               </TableCell>

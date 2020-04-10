@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 //schema for variables neeeded
 const variableSchema = new Schema({
-  key: { type: String, required: true },
+  key: { type: String, required: true, unique: true },
   value: { type: String, required: true }
 });
 //schema for modules

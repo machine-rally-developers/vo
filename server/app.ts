@@ -44,7 +44,7 @@ databaseConnection()
       "/graphql",
       graphqlHTTP(async (request, response, graphQLParams) => ({
         schema,
-        graphiql: process.env.NODE_ENV === "development" ? true : false
+        graphiql: process.env.APP_ENV === "development" ? true : false
         //context: authentication(request, response, graphQLParams)
       }))
     );

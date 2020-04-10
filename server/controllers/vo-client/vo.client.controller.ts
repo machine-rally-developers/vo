@@ -1,42 +1,71 @@
 //import isolateVM from "isolated-vm";
 import boom from "boom";
 import { NodeVM } from "vm2";
+import fs from "fs";
+import path from "path";
+import { getModuleDirectory, getModuleVariables } from "./function-list";
 //import start from "./hello.import";
 function askQuestion(questionData): Promise<any> {
+  let moduleName: string = "com.cat.image";
+  let startFile: string = "index";
+  let moduleId: string = "5e6387b4b1424bd7c0d92aeb";
   return new Promise((resolve, reject) => {
     const vm = new NodeVM({
       //console: "inherit",
       sandbox: {
         resolveResponse: result => {
+          console.log(typeof result);
+          result = typeof result == "string" ? JSON.parse(result) : result;
           resolve(result);
         },
         rejectResponse: error => {
+          console.log(error);
           reject(error);
+        },
+        getQuestion: () => questionData,
+        getModulePath: () => {
+          let modulePath = path.join(
+            __dirname,
+            "..",
+            "..",
+            "modules",
+            moduleName,
+            startFile
+          );
+          return modulePath;
+        },
+        getFunctions: () => {
+          let func = {
+            getModuleDirectory: cb => getModuleDirectory(moduleId, cb),
+            getModuleVariables: cb => getModuleVariables(moduleId, cb)
+          };
+          return func;
         }
       },
       require: {
         external: true
       }
     });
-    let moduleName: string = "String";
-    let startFile: string = "helloworld";
-    //console.log(process.cwd());
+    //
     try {
       vm.run(
-        `let start= require('./dist/modules/${moduleName}/${startFile}')
+        `let start= require(getModulePath())
          let boom = require('boom')
 
         try{
-          start(${JSON.stringify(questionData)})
+          start({question: getQuestion(),
+            func:getFunctions()
+          })
           .then((result)=>{console.log(result);
           resolveResponse(result)})
           .catch((e)=>{
+            console.log(e)
             let error = new Error(e);
             let outputError = boom.boomify(error, { statusCode: 500 }).output;
             rejectResponse(outputError)})
         }
         catch(e){
-
+          console.log(e)
           let error = new Error(e);
           let outputError = boom.boomify(error, { statusCode: 500 }).output;
           rejectResponse(outputError)
