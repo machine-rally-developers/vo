@@ -38,7 +38,7 @@
     "ncp": "^2.0.0",
     "randomstring": "^1.1.5",
     "unzipper": "^0.10.5",
-    "vm2": "^3.8.4",
+    "vm2": "^3.9.6",
     "yauzl": "^2.10.0"
   },
   "devDependencies": {
